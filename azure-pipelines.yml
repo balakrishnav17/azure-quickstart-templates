@@ -3,17 +3,14 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
-trigger:
-- master
-
 pool:
-  vmImage: 'ubuntu-latest'
+  name: Hosted Windows 2019 with VS2019
+  demands: githubreps
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- task: AzurePowerShell@3
+  inputs:
+    azureSubscription: 'Pay-As-You-Go'
+    ScriptPath: 'AzureResourceGroupDemo/Deploy-AzureResourceGroup.ps1'
+    ScriptArguments: -ResourceGroupName 'vbk' -ResourceGroupLocation 'Southeast Asia'
+    azurePowerShellVersion: LatestVersion
